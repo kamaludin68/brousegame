@@ -69,7 +69,7 @@ public class RateController {
     public ResponseEntity<InputStreamResource> getUploadTemplate(){
         try {
             InputStreamResource resource = new InputStreamResource(new ClassPathResource("templates/RATE_TEMPLATE.xls").getInputStream());
-            return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=RATE_TEMPLATE")
+            return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=RATE_TEMPLATE.xls")
                     .contentType(MediaType.APPLICATION_OCTET_STREAM).body(resource);
         } catch (IOException ex) {
             return ResponseEntity.notFound().build();

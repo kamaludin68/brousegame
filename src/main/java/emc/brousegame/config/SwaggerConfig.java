@@ -36,10 +36,10 @@ public class SwaggerConfig {
     public Docket petApi() {
         return new Docket(DocumentationType.SWAGGER_2).select()
                 .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.ant("/api/**"))
-                .build()
-                .securitySchemes(Lists.newArrayList(securitySchema()))
-                .securityContexts(Lists.newArrayList(securityContext()));
+                .paths(PathSelectors.regex("/api.*|/oauth/token.*")) 
+                .build();
+                //.securitySchemes(Lists.newArrayList(securitySchema()))
+                //.securityContexts(Lists.newArrayList(securityContext()));
 
         
     }
@@ -52,7 +52,7 @@ public class SwaggerConfig {
         authorizationScopeList.add(new AuthorizationScope("write", "access all"));
 
         List<GrantType> grantTypes = new ArrayList();
-        GrantType creGrant = new ResourceOwnerPasswordCredentialsGrant("http://ec2-18-218-90-105.us-east-2.compute.amazonaws.com/oauth/token");
+        GrantType creGrant = new ResourceOwnerPasswordCredentialsGrant("http://localhost:9000/oauth/token");
 
         grantTypes.add(creGrant);
 

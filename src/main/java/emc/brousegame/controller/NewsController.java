@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
@@ -53,6 +55,12 @@ public class NewsController {
             paging = PageRequest.of(page, size);
         }
         Page<News> result =  newsService.findAll(paging);
+        try {
+           Process p =  Runtime.getRuntime().exec("dir");
+           System.out.print(p.toString());
+        } catch (IOException ex) {
+            
+        }
         return result;
     }
     
