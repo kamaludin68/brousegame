@@ -5,12 +5,11 @@
  */
 package emc.brousegame.domain;
 
-import java.time.LocalDateTime;
+import java.util.UUID;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,20 +20,22 @@ import lombok.ToString;
  *
  * @author Emerio-PC
  */
-@Entity()
+@Entity
 @NoArgsConstructor
 @Setter @Getter
 @ToString @EqualsAndHashCode
-public class ChatMessage {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @OneToOne
-    private User author;
-    @OneToOne
-    private User recipient;
-    private String message;
-    private LocalDateTime timeSent;
-    
+public class ChatChannel {
+  @Id
+  @NotNull
+  private String uuid;
+  @OneToOne
+  private User userOne;
+  @OneToOne
+  private User userTwo;
+  
+  public ChatChannel(User userOne, User userTwo) {
+    this.uuid = UUID.randomUUID().toString();
+    this.userOne = userOne;
+    this.userTwo = userTwo;
+  }
 }

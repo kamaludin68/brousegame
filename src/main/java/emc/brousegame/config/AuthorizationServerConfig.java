@@ -20,8 +20,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  *
  * @author Emerio-PC
  */
-//@Configuration
-//@EnableAuthorizationServer
+@Configuration
+@EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     static final String CLIEN_ID = "client";

@@ -5,6 +5,7 @@
  */
 package emc.brousegame.service;
 
+import emc.brousegame.domain.Notification;
 import emc.brousegame.domain.User;
 import java.util.List;
 import java.util.Optional;
@@ -18,4 +19,7 @@ public interface UserService {
     public List<User> listUser();
     public Optional<User> findById(Long id);
     public void delete(Long id);
+    public void notifyUser(User recipientUser, Notification notification);
+    public User findByUsername(String username);
+    public void setIsPresent(User user, Boolean stat);
 }

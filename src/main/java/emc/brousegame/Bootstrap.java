@@ -27,18 +27,22 @@ public class Bootstrap implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        User user = new User();
-        user.setUsername("admin");
-        user.setPassword("password");
-        user.setStatus("ACTIVE");
-        user.setRole("ADMIN");
-        userService.save(user);
+        if(userService.listUser().size()<=0){
+            User user = new User();
+            user.setUsername("admin");
+            user.setPassword("password");
+            user.setStatus("ACTIVE");
+            user.setRole("ADMIN");
+            userService.save(user);
+        }
         
-        AppParams appParams = new AppParams();
-        appParams.setCode("EQUITY");
-        appParams.setValue("1000");
-        appParams.setDescription("digunakan untuk limit equity");
-        appParamsService.save(appParams);
+       if(appParamsService.list().size()<=0){
+            AppParams appParams = new AppParams();
+            appParams.setCode("EQUITY");
+            appParams.setValue("1000");
+            appParams.setDescription("digunakan untuk limit equity");
+            appParamsService.save(appParams);
+       }
     }
 
 }

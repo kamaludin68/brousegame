@@ -49,18 +49,14 @@ public class NewsController {
     NewsService newsService;
     
     @GetMapping("news")
-    public Page<News> list(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size){
+    public Page<News> list(
+        @RequestParam(required = false) Integer page, 
+        @RequestParam(required = false) Integer size){
         Pageable paging = Pageable.unpaged();
         if(null!=page && null !=size){
             paging = PageRequest.of(page, size);
         }
         Page<News> result =  newsService.findAll(paging);
-        try {
-           Process p =  Runtime.getRuntime().exec("dir");
-           System.out.print(p.toString());
-        } catch (IOException ex) {
-            
-        }
         return result;
     }
     

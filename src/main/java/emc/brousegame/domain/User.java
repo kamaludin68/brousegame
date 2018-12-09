@@ -29,9 +29,11 @@ public class User extends AbstractAuditingEntity{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String username;
-    @JsonIgnore
     private String password;
     private String status;
     private String role;
+    private Boolean isPresent;
+    
+    
     
 }

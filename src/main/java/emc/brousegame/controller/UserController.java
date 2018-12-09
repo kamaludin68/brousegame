@@ -35,7 +35,11 @@ public class UserController {
     
     @GetMapping("user")
     public List<User> listUser(){
-        return userService.listUser();
+        List<User> users =  userService.listUser();
+        for (User user : users) {
+            user.setPassword(null);
+        }
+        return users;
     }
     
     @GetMapping("user/{id}")
@@ -43,7 +47,9 @@ public class UserController {
         Optional<User> user = userService.findById(id);
         if(!user.isPresent())
             throw new ResourceNotFoundException("id:"+id);
-        return user.get();
+        User res =  user.get();
+        res.setPassword(null);
+        return res;
     }
     
     @PostMapping("user")
