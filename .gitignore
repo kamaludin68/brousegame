@@ -24,3 +24,7 @@
 /nbdist/
 /.nb-gradle/
 /nbactions.xml
+/brousegame-db.trace.db
+/brousegame-db.mv.db
+/test.bpmn
+/nbactions.xml
