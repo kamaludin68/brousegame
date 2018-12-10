@@ -5,6 +5,7 @@
  */
 package emc.brousegame.service;
 
+import emc.brousegame.domain.Currency;
 import emc.brousegame.domain.Rates;
 import java.util.List;
 import java.util.Optional;
@@ -21,4 +22,5 @@ public interface RateService {
     public void delete(Long id);
     public List<Rates> findByTimeRate(Integer timeRate);
     public void upload(MultipartFile file) throws Exception;
+    public List<Rates> findByCcyTo(String code);
 }

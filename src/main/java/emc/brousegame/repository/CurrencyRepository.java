@@ -6,6 +6,7 @@
 package emc.brousegame.repository;
 
 import emc.brousegame.domain.Currency;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

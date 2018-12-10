@@ -57,6 +57,11 @@ public class RateServiceImpl implements RateService {
     public List<Rates> findByTimeRate(Integer timeRate) {
         return rateRepository.findAllByTimeRate(timeRate);
     }
+    
+    public List<Rates> findByCcyTo(String code){
+        Currency currency = currencyRepository.findByCode(code);
+        return rateRepository.findAllByCcyTo(currency);
+    }
 
     public void delete(Long id) {
         rateRepository.deleteById(id);

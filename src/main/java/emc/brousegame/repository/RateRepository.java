@@ -5,6 +5,7 @@
  */
 package emc.brousegame.repository;
 
+import emc.brousegame.domain.Currency;
 import emc.brousegame.domain.Rates;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface RateRepository extends JpaRepository<Rates, Long>{
     public List<Rates> findAllByTimeRate(Integer timeRate);
+    public List<Rates> findAllByCcyTo(Currency currency);
 }

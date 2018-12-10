@@ -57,6 +57,11 @@ public class RateController {
         return rateService.findByTimeRate(timeRate);
     }
     
+    @GetMapping("rates/findByCcyTo")
+    public List<Rates> findByCcyTo(@RequestParam(defaultValue = "USD") String code){
+        return rateService.findByCcyTo(code);
+    }
+    
     @GetMapping("rates/{id}")
     public Rates getRate(@PathVariable Long id){
         Optional<Rates> rate = rateService.findById(id);
