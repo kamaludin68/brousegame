@@ -8,6 +8,7 @@ package emc.brousegame.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 import javax.persistence.EntityListeners;
+import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,21 +17,22 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
+ * 
  *
  * @author Emerio-PC
  */
 @EntityListeners(AuditingEntityListener.class)
+@Getter
+@Setter
 public abstract class AbstractAuditingEntity {
     @CreatedBy
-    @Setter(onMethod = @__( @JsonIgnore))
-    private String createdBy;
+//    @Setter(onMethod = @__( @JsonIgnore))
+    private String createdBy = "admin";
     @CreatedDate
-    @Setter(onMethod = @__( @JsonIgnore))
-    private LocalDateTime createdDate; //= LocalDateTime.now();
+    private LocalDateTime createdDate= LocalDateTime.now();
     @LastModifiedBy
-    @Setter(onMethod = @__( @JsonIgnore))
-    private String lastModifiedBy;
+    private String lastModifiedBy = "admin";
     @LastModifiedDate
-    @Setter(onMethod = @__( @JsonIgnore))
-    private LocalDateTime lastModifiedDate; //= LocalDateTime.now();
+    private LocalDateTime lastModifiedDate= LocalDateTime.now();
 }
+

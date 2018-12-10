@@ -31,9 +31,11 @@ public class User extends AbstractAuditingEntity{
     private Long id;
     @Column(unique = true)
     private String username;
+    private String fullname;
     private String password;
-    private String status;
+    private Boolean status;
     private String role;
+    @JsonIgnore
     private Boolean isPresent;
     
     

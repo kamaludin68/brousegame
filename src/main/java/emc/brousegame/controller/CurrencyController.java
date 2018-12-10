@@ -40,19 +40,17 @@ public class CurrencyController {
     }
     
     @GetMapping("currency/{id}")
-    public ResponseEntity<Currency> getCurrency(@PathVariable Long id){
-        Optional<Currency> currency = currencyService.findById(id);
+    public ResponseEntity<Currency> getCurrency(@PathVariable String code){
+        Optional<Currency> currency = currencyService.findByCode(code);
         if(!currency.isPresent())
-            throw new ResourceNotFoundException("id:"+id);
+            throw new ResourceNotFoundException("code:"+code);
         return ResponseEntity.ok(currency.get());
     }
     
     @PostMapping("currency")
     public ResponseEntity<Object> createCurrency(@RequestBody Currency currency){
-        if(currency.getId() !=null)
-            return ResponseEntity.badRequest().body("A new Currency cannot already have an ID");
         Currency result = currencyService.save(currency);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(currency.getId()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(currency.getCode()).toUri();
         return ResponseEntity.created(location).body(currency);
     }
     
@@ -63,8 +61,8 @@ public class CurrencyController {
     }
     
     @DeleteMapping("currency/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id){
-        currencyService.delete(id);
+    public ResponseEntity<String> delete(@PathVariable String code){
+        currencyService.delete(code);
         return ResponseEntity.ok("data has been delete");
     }
 }

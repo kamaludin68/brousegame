@@ -7,6 +7,7 @@ package emc.brousegame.service.impl;
 
 import emc.brousegame.domain.Notification;
 import emc.brousegame.domain.User;
+import emc.brousegame.exception.ResourceNotFoundException;
 import emc.brousegame.repository.UserRepository;
 import emc.brousegame.service.UserService;
 import java.util.Arrays;
@@ -21,7 +22,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 /**
  *
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService, UserDetailsService{
     private BCryptPasswordEncoder encoder;
     
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsernameAndStatus(username,true);
         if(user == null){
                 throw new UsernameNotFoundException("Invalid username or password.");
         }
@@ -48,9 +48,24 @@ public class UserServiceImpl implements UserService, UserDetailsService{
     @Override
     public User save(User user){
         String hash = encoder.encode(user.getPassword());
-        user.setStatus("ACTIVE");
+        user.setStatus(true);
         user.setPassword(hash);
         return userRepository.save(user);
+    }
+    
+    @Override
+    public void update(User user) throws ResourceNotFoundException{
+        Optional<User> result = userRepository.findById(user.getId());
+        if(result.isPresent()){
+            User currentUser = result.get();
+            currentUser.setRole(user.getRole());
+            currentUser.setFullname(user.getFullname());
+            currentUser.setUsername(user.getUsername());
+            currentUser.setStatus(user.getStatus());
+            userRepository.save(currentUser);
+        }else{
+            throw new ResourceNotFoundException("resource not found with id "+user.getId());
+        }
     }
     
     @Override

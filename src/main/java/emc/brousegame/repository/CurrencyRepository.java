@@ -12,6 +12,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author Emerio-PC
  */
-public interface CurrencyRepository extends JpaRepository<Currency, Long>{
+public interface CurrencyRepository extends JpaRepository<Currency, String>{
     public Currency findByCode(String code);
 }

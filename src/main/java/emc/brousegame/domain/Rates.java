@@ -9,11 +9,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.ManyToAny;
 
 /**
  *
@@ -27,8 +31,12 @@ public class Rates extends AbstractAuditingEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String ccyFrom;
-    private String ccyTo;
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "code")
+    private Currency ccyFrom;
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "code")
+    private Currency ccyTo;
     private Integer buy;
     private Integer sell;
     private Integer timeRate;

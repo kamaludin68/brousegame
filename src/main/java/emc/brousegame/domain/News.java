@@ -5,12 +5,7 @@
  */
 package emc.brousegame.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Date;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +14,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedDate;
 
 /**
  *
@@ -37,7 +31,4 @@ public class News extends AbstractAuditingEntity{
     private Long id;
     private String headline;
     private String detail;
-//    @CreatedDate
-//    @Setter(onMethod = @__( @JsonIgnore))
-//    private Date createdDate = new Date();
 }

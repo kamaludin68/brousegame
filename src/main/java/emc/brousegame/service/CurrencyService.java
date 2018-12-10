@@ -16,6 +16,6 @@ import java.util.Optional;
 public interface CurrencyService {
     public Currency save(Currency currency);
     public List<Currency> findAll();
-    public Optional<Currency> findById(Long id);
-    public void delete(Long id);
+    public Optional<Currency> findByCode(String code);
+    public void delete(String code);
 }

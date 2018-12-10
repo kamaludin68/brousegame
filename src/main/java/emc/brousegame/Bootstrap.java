@@ -6,8 +6,10 @@
 package emc.brousegame;
 
 import emc.brousegame.domain.AppParams;
+import emc.brousegame.domain.Currency;
 import emc.brousegame.domain.User;
 import emc.brousegame.service.AppParamsService;
+import emc.brousegame.service.CurrencyService;
 import emc.brousegame.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -24,6 +26,8 @@ public class Bootstrap implements CommandLineRunner {
     UserService userService;
     @Autowired
     AppParamsService appParamsService;
+    @Autowired
+    CurrencyService currencyService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -31,8 +35,8 @@ public class Bootstrap implements CommandLineRunner {
             User user = new User();
             user.setUsername("admin");
             user.setPassword("password");
-            user.setStatus("ACTIVE");
             user.setRole("ADMIN");
+            user.setFullname("administrator");
             userService.save(user);
         }
         
@@ -42,6 +46,27 @@ public class Bootstrap implements CommandLineRunner {
             appParams.setValue("1000");
             appParams.setDescription("digunakan untuk limit equity");
             appParamsService.save(appParams);
+       }
+       
+       if(currencyService.findAll().size()<=0){
+           Currency currency = new Currency();
+           currency.setCode("USD");
+           currency.setFlag("flag-icon-us");
+           currency.setName("US DOLLAR");
+           currencyService.save(currency);
+           
+           currency = new Currency();
+           currency.setCode("IDR");
+           currency.setFlag("flag-icon-id");
+           currency.setName("RUPIAH");
+           currencyService.save(currency);
+           
+           currency = new Currency();
+           currency.setCode("SGD");
+           currency.setFlag("flag-icon-sg");
+           currency.setName("DOLLAR SINGAPORE");
+           currencyService.save(currency);
+           
        }
     }
 

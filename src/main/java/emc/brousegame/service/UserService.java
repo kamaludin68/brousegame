@@ -7,6 +7,7 @@ package emc.brousegame.service;
 
 import emc.brousegame.domain.Notification;
 import emc.brousegame.domain.User;
+import emc.brousegame.exception.ResourceNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,4 +23,5 @@ public interface UserService {
     public void notifyUser(User recipientUser, Notification notification);
     public User findByUsername(String username);
     public void setIsPresent(User user, Boolean stat);
+    public void update(User user) throws ResourceNotFoundException;
 }

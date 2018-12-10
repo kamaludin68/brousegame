@@ -27,7 +27,7 @@ import org.hibernate.validator.constraints.UniqueElements;
 @NoArgsConstructor
 @Setter @Getter
 @ToString @EqualsAndHashCode
-public class AppParams {
+public class AppParams extends AbstractAuditingEntity{
 
     private static final long serialVersionUID = 1L;
     @Id

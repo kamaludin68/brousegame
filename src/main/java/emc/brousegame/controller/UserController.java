@@ -62,8 +62,9 @@ public class UserController {
     }
     
     @PutMapping("user")
-    public User update(@RequestBody User user){
-        return userService.save(user);
+    public String update(@RequestBody User user){
+        userService.update(user);
+        return "data has been update";
     }
     
     @DeleteMapping("delete/{id}")

@@ -49,6 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anonymous().disable()
                 .authorizeRequests()
                 .anyRequest().permitAll();
+        
+        http.headers().frameOptions().disable();
     }
 
     @Override

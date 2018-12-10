@@ -5,7 +5,9 @@
  */
 package emc.brousegame.service.impl;
 
+import emc.brousegame.domain.Currency;
 import emc.brousegame.domain.Rates;
+import emc.brousegame.exception.ResourceNotFoundException;
 import emc.brousegame.repository.CurrencyRepository;
 import emc.brousegame.repository.RateRepository;
 import emc.brousegame.service.RateService;
@@ -75,8 +77,14 @@ public class RateServiceImpl implements RateService {
                 try {
                     Rates rates = new Rates();
                     rates.setTimeRate(Integer.valueOf(dataFormatter.formatCellValue(row.getCell(0))));
-                    rates.setCcyFrom(dataFormatter.formatCellValue(row.getCell(1)));
-                    rates.setCcyTo(dataFormatter.formatCellValue(row.getCell(2)));
+                    Currency from = currencyRepository.findByCode(dataFormatter.formatCellValue(row.getCell(1)));
+                    if(from == null)
+                        throw new ResourceNotFoundException("Currency with code :"+dataFormatter.formatCellValue(row.getCell(1))+" not found at master currency");
+                    rates.setCcyFrom(from);
+                    Currency to = currencyRepository.findByCode(dataFormatter.formatCellValue(row.getCell(2)));
+                    if(to == null)
+                        throw new ResourceNotFoundException("Currency with code :"+dataFormatter.formatCellValue(row.getCell(2))+" not found at master currency");
+                    rates.setCcyTo(to);
                     rates.setBuy(Integer.valueOf(dataFormatter.formatCellValue(row.getCell(3))));
                     rates.setSell(Integer.valueOf(dataFormatter.formatCellValue(row.getCell(4))));
                     rates.setMaxRate(Integer.valueOf(dataFormatter.formatCellValue(row.getCell(5))));

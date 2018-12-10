@@ -37,13 +37,14 @@ public class CurrencyServiceImpl implements CurrencyService{
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Currency> findById(Long id) {
-        return currencyRepository.findById(id);
+    public Optional<Currency> findByCode(String code) {
+        return currencyRepository.findById(code);
     }
 
     @Override
-    public void delete(Long id) {
-        currencyRepository.deleteById(id);
+    public void delete(String code) {
+        currencyRepository.deleteById(code);
     }
+
     
 }
