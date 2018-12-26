@@ -37,13 +37,13 @@ public class BrousegameApplicationTests {
 	@Test
 	public void contextLoads() throws InterruptedException, ExecutionException, TimeoutException {
             RestTemplate restTemplate = new RestTemplate();
-            ResponseEntity res =  restTemplate.postForEntity("http://localhost:9000/api/v1/chat/channel?userIdOne=1&userIdTwo=2", null, Map.class);
+            ResponseEntity res =  restTemplate.postForEntity("http://localhost:9000/api/v1/chat/channel?usernameOne=admin&usernameTwo=user1", null, Map.class);
             Map<String,Object> channel = (Map<String,Object>) res.getBody();
             completableFuture = new CompletableFuture<>();
             WebSocketStompClient stompClient = new WebSocketStompClient(new SockJsClient(createTransportClient()));
             stompClient.setMessageConverter(new MappingJackson2MessageConverter());
             StompSession stompSession = stompClient.connect("ws://localhost:9000/ws", new StompSessionHandlerAdapter() {}).get(1, SECONDS);
-            stompSession.subscribe("/topic/chat."+channel.get("channelUuid"), new StompFrameHandler() {
+            stompSession.subscribe("/topic/chat."+channel.get("channelId"), new StompFrameHandler() {
                 @Override
                 public Type getPayloadType(StompHeaders sh) {
                     System.out.println(sh.toString());
@@ -58,10 +58,11 @@ public class BrousegameApplicationTests {
                 }
             });
             ChatMessage message = new ChatMessage();
-            message.setChannelId((String) channel.get("channelUuid"));
+            message.setChannelId((String) channel.get("channelId"));
             message.setMessage("tester nyoba");
+            message.setCreatedBy("admin");
             
-            stompSession.send("/app/chat."+channel.get("channelUuid"), message);
+            stompSession.send("/app/chat."+channel.get("channelId"), message);
 //            ChatMessage gameState = completableFuture.get(20, SECONDS);
 //            System.out.println(gameState);
 
