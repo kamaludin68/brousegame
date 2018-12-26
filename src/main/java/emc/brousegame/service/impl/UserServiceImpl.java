@@ -86,12 +86,12 @@ public class UserServiceImpl implements UserService, UserDetailsService{
     }
     
     
-    public User findByUsername(String username){
+    public Optional<User> findByUsername(String username){
         return userRepository.findByUsername(username);
     }
     
     public void notifyUser(User recipientUser, Notification notification) {
-    if (recipientUser.getIsPresent()) {
+    if (recipientUser.getIsOnline()) {
       simpMessagingTemplate
         .convertAndSend("/topic/user.notification." + recipientUser.getId(), notification);
     } else {
@@ -101,7 +101,11 @@ public class UserServiceImpl implements UserService, UserDetailsService{
   }
     
     public void setIsPresent(User user, Boolean stat) {
-        user.setIsPresent(stat);
+        user.setIsOnline(stat);
         userRepository.save(user);
+  }
+    
+  public List<User> friendList (String username){
+      return userRepository.findAllByUsernameNot(username);
   }
 }

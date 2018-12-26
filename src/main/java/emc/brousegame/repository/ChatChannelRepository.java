@@ -25,8 +25,17 @@ public interface ChatChannelRepository extends CrudRepository<ChatChannel, Strin
       + "    c.userOne.id IN (:userOneId, :userTwoId) "
       + "  AND"
       + "    c.userTwo.id IN (:userOneId, :userTwoId)")
-  public List<ChatChannel> findExistingChannel(
+  public List<ChatChannel> findExistingChannelById(
       @Param("userOneId") long userOneId, @Param("userTwoId") long userTwoId);
+  
+  @Query(" FROM"
+      + "    ChatChannel c"
+      + "  WHERE"
+      + "    c.userOne.username IN (:userOne, :userTwo) "
+      + "  AND"
+      + "    c.userTwo.username IN (:userOne, :userTwo)")
+  public List<ChatChannel> findExistingChannelByUsername(
+      @Param("userOne") String userOne, @Param("userTwo") String userTwo);
   
   @Query(" SELECT"
       + "    uuid"

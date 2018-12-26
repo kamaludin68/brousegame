@@ -9,7 +9,9 @@ import emc.brousegame.domain.User;
 import emc.brousegame.exception.ResourceNotFoundException;
 import emc.brousegame.service.UserService;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -52,6 +55,15 @@ public class UserController {
         return res;
     }
     
+    @GetMapping("user/friendList")
+    public List<User> friendList(@RequestParam String username){
+        List<User> users =  userService.friendList(username);
+        for (User user : users) {
+            user.setPassword(null);
+        }
+        return users;
+    }
+    
     @PostMapping("user")
     public ResponseEntity<Object> create(@RequestBody User user){
         if(null != user.getId())
@@ -62,9 +74,11 @@ public class UserController {
     }
     
     @PutMapping("user")
-    public String update(@RequestBody User user){
+    public Map<String,Object> update(@RequestBody User user){
         userService.update(user);
-        return "data has been update";
+        Map<String,Object> res = new HashMap<>();
+        res.put("message", "user has been updated");
+        return res;
     }
     
     @DeleteMapping("delete/{id}")

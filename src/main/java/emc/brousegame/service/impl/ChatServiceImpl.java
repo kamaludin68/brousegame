@@ -36,14 +36,30 @@ public class ChatServiceImpl implements ChatService{
     
     private String getExistingChannel(Long userIdOne, Long userIdTwo) {
     List<ChatChannel> channel = chatChannelRepository
-      .findExistingChannel(userIdOne,userIdTwo);
+      .findExistingChannelById(userIdOne,userIdTwo);
+    
+    return (channel != null && !channel.isEmpty()) ? channel.get(0).getUuid() : null;
+  }
+    
+    private String getExistingChannel(String usernameOne, String usernameTwo) {
+    List<ChatChannel> channel = chatChannelRepository
+      .findExistingChannelByUsername(usernameOne,usernameTwo);
     
     return (channel != null && !channel.isEmpty()) ? channel.get(0).getUuid() : null;
   }
 
   private String newChatSession(Long userIdOne, Long userIdTwo){
-    User user1 = userService.findById(userIdOne).map(user -> user).orElseThrow(()->new ResourceNotFoundException("User di one not found"));
-    User user2 = userService.findById(userIdTwo).map(user ->user).orElseThrow(()->new ResourceNotFoundException("User di two not found"));
+    User user1 = userService.findById(userIdOne).map(user -> user).orElseThrow(()->new ResourceNotFoundException("User id one not found"));
+    User user2 = userService.findById(userIdTwo).map(user ->user).orElseThrow(()->new ResourceNotFoundException("User id two not found"));
+    ChatChannel channel = new ChatChannel(user1, user2);
+    chatChannelRepository.save(channel);
+
+    return channel.getUuid();
+  }
+  
+  private String newChatSession(String usernameOne, String usernameTwo){
+    User user1 = userService.findByUsername(usernameOne).map(user -> user).orElseThrow(()->new ResourceNotFoundException("User id one not found"));
+    User user2 = userService.findByUsername(usernameTwo).map(user ->user).orElseThrow(()->new ResourceNotFoundException("User id two not found"));
     ChatChannel channel = new ChatChannel(user1, user2);
     chatChannelRepository.save(channel);
 
@@ -63,26 +79,30 @@ public class ChatServiceImpl implements ChatService{
   
   public void submitMessage(ChatMessage chatMessage){
     chatMessageRepository.save(chatMessage);
-    Notification notification = new Notification();
-    notification.setContents(chatMessage.getAuthor().getUsername() + " has sent you a message");
-    notification.setFromUserId(chatMessage.getAuthor().getId());
-    notification.setType("ChatMessageNotification");
-    userService.notifyUser(chatMessage.getRecipient(),notification);
+//    Notification notification = new Notification();
+//    notification.setContents(chatMessage.getWho().getUsername() + " has sent you a message");
+//    notification.setFromUserId(chatMessage.getAuthor().getId());
+//    notification.setType("ChatMessageNotification");
+//    userService.notifyUser(chatMessage.getRecipient(),notification);
   }
  
   public List<ChatMessage> getExistingChatMessages(String channelUuid){
-    ChatChannel channel = chatChannelRepository.getChannelDetails(channelUuid);
-
-    List<ChatMessage> chatMessages = 
-      chatMessageRepository.getExistingChatMessages(
-        channel.getUserOne().getId(),
-        channel.getUserTwo().getId()
-      );
-
+    return chatMessageRepository.findAllByChannelId(channelUuid);
     // TODO: fix this
     //List<ChatMessage> messagesByLatest = Lists.reverse(chatMessages); 
 
-    return chatMessages;
   }
+
+    @Override
+    public String establishChatSession(String usernameOne, String usernameTwo) {
+        if (usernameOne == usernameTwo) {
+            throw new BadRequestException("userId one equal to user id two");
+         }
+
+    String uuid = getExistingChannel(usernameOne,usernameTwo);
+
+    // If channel doesn't already exist, create a new one
+    return (uuid != null) ? uuid : newChatSession(usernameOne,usernameTwo);
+    }
     
 }

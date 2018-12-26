@@ -2,6 +2,7 @@ package emc.brousegame.config;
 
 import emc.brousegame.domain.User;
 import emc.brousegame.service.UserService;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -34,7 +35,8 @@ public class UserPresenceService implements ChannelInterceptor{
   }
 
   private void toggleUserPresence(String username, Boolean isPresent) {
-      User user = userService.findByUsername(username);
-      userService.setIsPresent(user, isPresent);
+      Optional<User> user = userService.findByUsername(username);
+      if(user.isPresent())
+        userService.setIsPresent(user.get(), isPresent);
   }
 }

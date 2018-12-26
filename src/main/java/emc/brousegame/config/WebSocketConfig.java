@@ -32,16 +32,16 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
 
   @Override
   public void configureClientInboundChannel(ChannelRegistration registration) {
-    registration.setInterceptors(presenceChannelInterceptor());
+    registration.interceptors(presenceChannelInterceptor());
   }
 
   @Override
   public void configureClientOutboundChannel(ChannelRegistration registration) {
-    registration.taskExecutor().corePoolSize(OUTBOUND_CHANNEL_CORE_POOL_SIZE);
-    registration.setInterceptors(presenceChannelInterceptor());
+    //registration.taskExecutor().corePoolSize(OUTBOUND_CHANNEL_CORE_POOL_SIZE);
+    registration.interceptors(presenceChannelInterceptor());
   }
 
-  protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
-    messages.simpDestMatchers("/*").authenticated();
-  }
+//  protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
+//    messages.simpDestMatchers("/*").authenticated();
+//  }
 }

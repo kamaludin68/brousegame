@@ -21,7 +21,8 @@ public interface UserService {
     public Optional<User> findById(Long id);
     public void delete(Long id);
     public void notifyUser(User recipientUser, Notification notification);
-    public User findByUsername(String username);
+    public Optional<User> findByUsername(String username);
     public void setIsPresent(User user, Boolean stat);
     public void update(User user) throws ResourceNotFoundException;
+    public List<User> friendList (String username);
 }

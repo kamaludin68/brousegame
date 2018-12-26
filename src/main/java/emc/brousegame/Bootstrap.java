@@ -38,6 +38,13 @@ public class Bootstrap implements CommandLineRunner {
             user.setRole("ADMIN");
             user.setFullname("administrator");
             userService.save(user);
+            
+            user = new User();
+            user.setUsername("user1");
+            user.setPassword("password");
+            user.setRole("USER");
+            user.setFullname("user1");
+            userService.save(user);
         }
         
        if(appParamsService.list().size()<=0){

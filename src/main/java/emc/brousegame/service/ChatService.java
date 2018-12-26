@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
  */
 public interface ChatService {
     public String establishChatSession(Long userIdOne, Long userIdTwo);
+    public String establishChatSession(String usernameOne, String usernameTwo);
     void submitMessage(ChatMessage chatMessage);
     public List<ChatMessage> getExistingChatMessages(String channelUuid);
 }

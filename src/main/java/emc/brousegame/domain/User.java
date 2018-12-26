@@ -35,8 +35,8 @@ public class User extends AbstractAuditingEntity{
     private String password;
     private Boolean status;
     private String role;
-    @JsonIgnore
-    private Boolean isPresent;
+    @Getter
+    private Boolean isOnline;
     
     
     
